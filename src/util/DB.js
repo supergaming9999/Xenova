@@ -73,7 +73,7 @@ module.exports = class DB {
         var comp = (Date.now() - profile.interestTime) / 1000 / 60 / 60;
         var dif = Math.floor(comp / 24) + 1;
         if (comp > 0) {
-            await this.addBank(user, Math.round(profile.bank * 0.05) * dif);
+            profile.bank += Math.round(profile.bank * 0.05) * dif;
             profile.interestTime = Date.now() + (1000 * 60 * 60 * 24);
             profile.save();
         }
