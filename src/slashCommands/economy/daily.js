@@ -21,7 +21,7 @@ module.exports = {
                 return interaction.reply(client.simpleEmbed(`⏲ Your daily is still on cooldown until **${Util.formatTime(cooldown)}**`))
             }
         }
-        var daily = await DB.applyRewards(profileData);
+        var { daily, nextTime } = await DB.applyRewards(profileData);
         var monkey = Util.formatNumber(daily);
         var embed = new EmbedBuilder()
             .setColor('#b7ff00')

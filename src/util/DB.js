@@ -83,7 +83,7 @@ module.exports = class DB {
     /**
      * Apply the daily rewards to a profile
      * @param {Util.dbModel} profile The database user profile
-     * @returns {number} The calculated daily reward
+     * @returns {{ daily: number, nextTime: number }} The calculated daily reward and the time until the next one
      */
     static async applyRewards(profile) {
         var nextTime = Date.now() + (1000 * 60 * 60 * 12);
@@ -92,7 +92,7 @@ module.exports = class DB {
         var daily = Math.round((500 + Math.random() * (200)) + (profile.dailyStreak * 150));
         profile.monkey += daily;
         await profile.save();
-        return daily;
+        return { daily, nextTime };
     }
     
     /**
