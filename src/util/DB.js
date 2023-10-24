@@ -81,6 +81,21 @@ module.exports = class DB {
     }
 
     /**
+     * Apply the daily rewards to a profile
+     * @param {Util.dbModel} profile The database user profile
+     * @returns {number} The calculated daily reward
+     */
+    static async applyRewards(profile) {
+        var nextTime = Date.now() + (1000 * 60 * 60 * 12);
+        profile.dailyTime = nextTime;
+        profile.dailyStreak += 1;
+        var daily = Math.round((500 + Math.random() * (200)) + (profile.dailyStreak * 150));
+        profile.monkey += daily;
+        await profile.save();
+        return daily;
+    }
+    
+    /**
      * Add monkey to a user's monkey
      * @param {User} user Discord User
      * @param {number} amount Monkey amount to add

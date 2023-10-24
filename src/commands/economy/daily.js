@@ -14,19 +14,14 @@ module.exports = {
      * @param {Util.configModel} config 
      * @param {Util.dbModel} profileData 
      */
-    execute(client, message, args, config, profileData) {
+    async execute(client, message, args, config, profileData) {
         if (profileData.dailyTime) {
             var cooldown = profileData.dailyTime - Date.now();
             if ((cooldown / 1000 / 60 / 60) > 0) {
                 return message.reply(client.simpleEmbed(`⏲ Your daily is still on cooldown until **${Util.formatTime(cooldown)}**`))
             }
         }
-        var nextTime = Date.now() + (1000 * 60 * 60 * 12);
-        profileData.dailyTime = nextTime;
-        profileData.dailyStreak += 1;
-        profileData.save();
-        var daily = profileData.dailyStreak * 65 * 25;
-        DB.addMonkey(message.author, daily);
+        var daily = await DB.applyRewards(profileData);
         var monkey = Util.formatNumber(daily);
         var embed = new EmbedBuilder()
             .setColor('#b7ff00')
