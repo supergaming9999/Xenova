@@ -6,12 +6,12 @@ const { formatNumber } = require("../../util/Util");
 
 const { TicTacToe } = require("../../util/Games");
 
-const { blank: empty, x, o } = require("../../../config.json").emojis;
+const { blank, x, o } = require("../../../config.json").emojis;
 
 const defaultGame = [
-    [empty, empty, empty],
-    [empty, empty, empty],
-    [empty, empty, empty],
+    [blank, blank, blank],
+    [blank, blank, blank],
+    [blank, blank, blank],
 ];
 
 module.exports = {
@@ -122,7 +122,7 @@ module.exports = {
         var botEmoji = player == "X" ? o : x;
 
         let splitID = interaction.customId.split(',');
-        if (tttGame[splitID[0]][splitID[1]] != empty) {
+        if (tttGame[splitID[0]][splitID[1]] != blank) {
             return interaction.reply({ ...client.simpleEmbed("Press an empty button!"), ephemeral: true });
         }
 
@@ -200,56 +200,28 @@ module.exports = {
 
 function calcWinner(tttGame, playerEmoji) {
     var winner = "r turn";
+    var winConditions = [
+        [[0, 0], [0, 1], [0, 2]],
+        [[1, 0], [1, 1], [1, 2]],
+        [[2, 0], [2, 1], [2, 2]],
+        [[0, 0], [1, 0], [2, 0]],
+        [[0, 1], [1, 1], [2, 1]],
+        [[0, 2], [1, 2], [2, 2]],
+        [[2, 0], [1, 1], [0, 2]],
+        [[0, 0], [1, 1], [2, 2]]
+    ];
 
-    // FDM
-    /*  */ if (tttGame[0][0] === x && tttGame[0][1] === x && tttGame[0][2] === x) {
-        // ﹉
+    var win = false;
+    for (var combination of winConditions) {
+        if (
+            tttGame[combination[0][0]][combination[0][1]] == playerEmoji &&
+            tttGame[combination[1][0]][combination[1][1]] == playerEmoji &&
+            tttGame[combination[2][0]][combination[2][1]] == playerEmoji
+        ) win = true;
+    }
+
+    if (win) {
         winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[1][0] === x && tttGame[1][1] === x && tttGame[1][2] === x) {
-        // -
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[2][0] === x && tttGame[2][1] === x && tttGame[2][2] === x) {
-        // _
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][0] === x && tttGame[1][0] === x && tttGame[2][0] === x) {
-        // |..
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][1] === x && tttGame[1][1] === x && tttGame[2][1] === x) {
-        // .|.
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][2] === x && tttGame[1][2] === x && tttGame[2][2] === x) {
-        // ..|
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[2][0] === x && tttGame[1][1] === x && tttGame[0][2] === x) {
-        // /
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][0] === x && tttGame[1][1] === x && tttGame[2][2] === x) {
-        // \
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][0] === o && tttGame[0][1] === o && tttGame[0][2] === o) {
-        // ﹉
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[1][0] === o && tttGame[1][1] === o && tttGame[1][2] === o) {
-        // -
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[2][0] === o && tttGame[2][1] === o && tttGame[2][2] === o) {
-        // _
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][0] === o && tttGame[1][0] === o && tttGame[2][0] === o) {
-        // |..
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][1] === o && tttGame[1][1] === o && tttGame[2][1] === o) {
-        // .|.
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][2] === o && tttGame[1][2] === o && tttGame[2][2] === o) {
-        // ..|
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[2][0] === o && tttGame[1][1] === o && tttGame[0][2] === o) {
-        // /
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
-    } else if (tttGame[0][0] === o && tttGame[1][1] === o && tttGame[2][2] === o) {
-        // \
-        winner = playerEmoji == o ? " **Win**" : " **Lose**";
     } else if (!getRandomSlot(tttGame)) {
         winner = " **Tied**";
     }
@@ -266,7 +238,7 @@ function getRandomSlot(game) {
     for (var row of game) {
         var slotI = 0;
         for (var slot of row) {
-            if (slot == empty) emptySlots.push(`${rowI},${slotI}`);
+            if (slot == blank) emptySlots.push(`${rowI},${slotI}`);
             slotI++;
         }
         rowI++;

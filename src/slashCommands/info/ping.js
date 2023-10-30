@@ -18,7 +18,6 @@ module.exports = {
             .setColor('#2200ff')
             .setAuthor({
                 name: `Average ping to API: ${Math.round(client.ws.ping)} ms`,
-                url: config.website,
                 iconURL: client.user.displayAvatarURL()
             });
 
