@@ -39,7 +39,7 @@ module.exports = class Util {
         const hrs = Math.floor(time / 1000 / 60 / 60);
 		const min = Math.floor((time / 1000 / 60) - (hrs * 60));
 		const sec = Math.floor((time / 1000) - (min * 60));
-		return `${hrs}h ${min.toString().padStart(2, '0')}m ${sec.toFixed(0).slice(3)}s`;
+		return `${hrs}h ${min.toString().padStart(2, '0')}m ${sec.toFixed(0).padStart(2, '0')}s`;
 	}
 
     /**
