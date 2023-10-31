@@ -31,15 +31,17 @@ module.exports = class Util {
     }
 
     /**
-     * Format milliseconds into a time string
+     * Format milliseconds into a readable time string
      * @param {Number} time The time to format in milliseconds
-     * @returns {String} The formatted time
+     * @returns {String} The readable formatted time
      */
     static formatTime(time) {
-        const hrs = Math.floor(time / 1000 / 60 / 60);
-		const min = Math.floor((time / 1000 / 60) - (hrs * 60));
-		const sec = Math.floor((time / 1000) - (min * 60));
-		return `${hrs}h ${min.toString().padStart(2, '0')}m ${sec.toFixed(0).padStart(2, '0')}s`;
+        var seconds = time / 1000;
+        var hours = parseInt(seconds / 3600);
+        seconds = seconds % 3600;
+        var minutes = parseInt(seconds / 60);
+        seconds = seconds % 60;
+        return `${hours}h ${minutes}m ${Math.floor(seconds)}s`;
 	}
 
     /**
