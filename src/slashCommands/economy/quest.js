@@ -8,7 +8,7 @@ module.exports = {
 	name: 'quest',
 	description: "Complete a quest to earn monkey.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 45,
+	cooldown: 30,
     /**
      * @param {DiscordClient} client 
      * @param {CommandInteraction} interaction 
@@ -20,7 +20,7 @@ module.exports = {
             return interaction.reply(client.simpleEmbed(`You are already in a quest! [[Click Me To Go There]](${Util.createUrl(ActiveQuests.get(interaction.user.id).message)})`));
         }
 
-        var quests = new Quests();
+        var quests = Quests.list;
         var quest = quests[Math.floor(Math.random() * quests.length)];
 
         await Quests[quest]({

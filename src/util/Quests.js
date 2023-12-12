@@ -16,9 +16,7 @@ var getEmbed = (msg) => {
 }
 
 module.exports = class Quests {
-    constructor() {
-        return Object.getOwnPropertyNames(Quests).slice(3);
-    }
+    static list = ["FindNumbers", "Buttons", "Emojis"];
 
     /**
      * @param {Message} message 
@@ -87,7 +85,7 @@ module.exports = class Quests {
             var missing = numbers;
             result.forEach(n => missing.splice(missing.indexOf(n), 1));
             if (missed) {
-                attempt.setDescription(`You missed ${missed > 1 ? 'these': 'this'} ${missed} number${missed > 1 ? 's' : ''}: ${missing.join(' ')}`);
+                attempt.setDescription(`You missed ${missed > 1 ? `these ${missed}`: 'this'} number${missed > 1 ? 's' : ''}: ${missing.join(' ')}`);
             }
             
             DB.addMonkey(message.author, reward);
