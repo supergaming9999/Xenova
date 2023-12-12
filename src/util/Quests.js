@@ -151,7 +151,7 @@ module.exports = class Quests {
             }
             var button = await quest.awaitMessageComponent({
                 filter: c => c.user.id == message.author.id,
-                time: 10_000
+                time: 6_000
             }).catch(() => {});
             if (button) {
                 button.deferUpdate();
