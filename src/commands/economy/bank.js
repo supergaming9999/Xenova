@@ -27,9 +27,9 @@ module.exports = {
                 text: `${message.author.displayName == message.author.username ? message.author.username : `${message.author.displayName} / ${message.author.username}`}`,
                 iconURL: message.author.displayAvatarURL()
             });
-        if (args.length || args.length > 1) {
+        if (args.length > 1) {
             var type = args[0].replace(/[<>]/g, '').toLowerCase();
-            if (!["deposit", "add", "withdraw", "take"].includes(type)) {
+            if (!["deposit", "d", "add", "withdraw", "w", "take"].includes(type)) {
                 usageError.embeds[0].setFooter({
                     text: "Enter either 'deposit' or 'withdraw'."
                 });
@@ -47,6 +47,7 @@ module.exports = {
                 return message.reply(usageError);
             }
             switch (type) {
+                case "d":
                 case "add":
                 case "deposit":
                     if (amount > profileData.monkey) {
@@ -61,6 +62,7 @@ module.exports = {
                     DB.addBank(message.author, amount);
                     embed.setDescription(`Deposited **${Util.formatNumber(amount)} Monkey**.`);
                     break;
+                case "w":
                 case "take":
                 case "withdraw":
                     if (amount > profileData.bank) {

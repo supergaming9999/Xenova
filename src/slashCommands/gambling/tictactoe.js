@@ -18,7 +18,7 @@ module.exports = {
 	name: 'tictactoe',
 	description: "Gamble monkey on a game of Tic Tac Toe.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 3000,
+	cooldown: 10,
     options: [
         {
             name: "amount",

@@ -1,5 +1,6 @@
 const { ApplicationCommandType, EmbedBuilder, ApplicationCommandOptionType, ChatInputCommandInteraction } = require('discord.js');
 const Util = require('../../util/Util');
+const { random } = require('../../util/Util');
 const DB = require('../../util/DB');
 const DiscordClient = require('../../structures/DiscordClient');
 const { NumberGuess } = require('../../util/Games');
@@ -8,7 +9,7 @@ module.exports = {
 	name: 'numberguess',
 	description: "Gamble monkey on a game of guess my number.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 3000,
+	cooldown: 10,
     options: [
         {
             name: "amount",
@@ -134,12 +135,3 @@ module.exports = {
 function getRangesOfRanges(num, min, max) {
     return [random(min, num), random(num, max)];
 }
-
-// min(inclusive), max(exclusive)
-/**
- * Get a random number between a min and a max
- * @param {Number} min inclusive
- * @param {Number} max exclusive
- * @returns {Number}
- */
-var random = (min, max) => Math.floor(Math.random() * (max - min) + min);

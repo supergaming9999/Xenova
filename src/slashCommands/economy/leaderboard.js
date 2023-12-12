@@ -7,7 +7,7 @@ module.exports = {
 	name: 'leaderboard',
 	description: "See the monkey leaderboard.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 3000,
+	cooldown: 5,
     /**
      * @param {DiscordClient} client 
      * @param {CommandInteraction} interaction 

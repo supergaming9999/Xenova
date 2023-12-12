@@ -19,7 +19,7 @@ module.exports = {
 	name: 'coinflip',
 	description: "Gamble monkey on a coinflip.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 5000,
+	cooldown: 5,
     options: [
         {
             name: "amount",

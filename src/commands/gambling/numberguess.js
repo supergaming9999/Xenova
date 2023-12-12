@@ -1,5 +1,6 @@
 const { EmbedBuilder, Message } = require('discord.js');
 const Util = require('../../util/Util');
+const { random } = require('../../util/Util');
 const DiscordClient = require('../../structures/DiscordClient');
 const DB = require('../../util/DB');
 const { NumberGuess } = require('../../util/Games');
@@ -10,7 +11,7 @@ module.exports = {
     aliases: ["guessnumber", "guessnum", "numguess", "guessmynumber", "ng"],
     description: "Gamble monkey on a game of guess my number.",
     usage: "<Monkey Bet Number>",
-    cooldown: 3,
+    cooldown: 10,
     /**
      * @param {DiscordClient} client 
      * @param {Message} message 
@@ -137,12 +138,3 @@ module.exports = {
 function getRangesOfRanges(num, min, max) {
     return [random(min, num), random(num, max)];
 }
-
-// min(inclusive), max(exclusive)
-/**
- * Get a random number between a min and a max
- * @param {Number} min inclusive
- * @param {Number} max exclusive
- * @returns {Number}
- */
-var random = (min, max) => Math.floor(Math.random() * (max - min) + min);

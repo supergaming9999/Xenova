@@ -8,7 +8,7 @@ module.exports = {
 	name: 'blackjack',
 	description: "Gamble monkey on a game of blackjack.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 5000,
+	cooldown: 10,
     options: [
         {
             name: "amount",

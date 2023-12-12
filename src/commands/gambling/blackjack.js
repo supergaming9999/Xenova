@@ -10,7 +10,7 @@ module.exports = {
     aliases: ["bj", "21"],
     description: "Gamble monkey in the classic card game blackjack.",
     usage: "<Monkey Bet Number>",
-    cooldown: 5,
+    cooldown: 10,
     /**
      * @param {DiscordClient} client 
      * @param {Message} message 

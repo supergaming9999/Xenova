@@ -20,7 +20,7 @@ module.exports = {
             return;
         }
         var usageError = client.simpleEmbed(`Usage: **${config.prefix}${message.label} ${this.usage}**`);
-        if (!args || !args.length || args.length < 2) {
+        if (args.length < 2) {
             return message.reply(usageError);
         }
         var target = message.mentions.users.first();

@@ -10,7 +10,13 @@ var TicTacToe = new Map();
  */
 var NumberGuess = new Map();
 
+/**
+ * @type {Map<String, { type: String, message: Message }>}
+ */
+var ActiveQuests = new Map();
+
 module.exports = {
     TicTacToe,
-    NumberGuess
+    NumberGuess,
+    ActiveQuests
 };

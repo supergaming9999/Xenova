@@ -126,22 +126,6 @@ class DiscordClient extends Client {
         console.log(this.colors[color], string + this.colors.Reset);
     }
 
-    /**
-     * 
-     * @param {String} description The error message
-     * @param {String} link Link to audio origin
-     * @param {String} image Link to an image origin
-     * @returns {EmbedBuilder} A Discord Embed
-     */
-    errorEmbed(description = "Unknown Error", link = false, image = false) {
-        var embed = new EmbedBuilder().setColor("DarkRed");
-        if (link && image) embed.setAuthor({ name: "Error: " + description, iconURL: image, url: link });
-        if (image && !link) embed.setAuthor({ name: "Error: " + description, iconURL: image });
-        if (link && !image) embed.setAuthor({ name: "Error: " + description, url: link });
-        if (!link && !image) embed.setAuthor({ name: "Error: " + description });
-        return { embeds: [embed] };
-    }
-
     simpleEmbed(description = "Unknown", color = "Red") {
         var embed = new EmbedBuilder()
             .setColor(color)

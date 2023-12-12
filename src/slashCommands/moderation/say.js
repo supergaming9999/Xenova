@@ -7,7 +7,7 @@ module.exports = {
 	description: "Make me say something.",
 	type: ApplicationCommandType.ChatInput,
     default_member_permissions: "ManageMessages",
-	cooldown: 3000,
+	cooldown: 3,
     options: [
         {
             name: "text",

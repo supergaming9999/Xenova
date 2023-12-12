@@ -7,7 +7,7 @@ module.exports = {
 	name: 'daily',
 	description: "Get some daily monkeys.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 3000,
+	cooldown: 3,
     /**
      * @param {DiscordClient} client 
      * @param {CommandInteraction} interaction 

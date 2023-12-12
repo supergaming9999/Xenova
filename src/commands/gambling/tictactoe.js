@@ -18,7 +18,7 @@ module.exports = {
     aliases: ["ttt", "tic", "tac", "toe"],
     description: "Gamble monkey on a game of Tic Tac Toe.",
     usage: "<Monkey Bet Number>",
-    cooldown: 3,
+    cooldown: 10,
     /**
      * @param {DiscordClient} client 
      * @param {Message} message 

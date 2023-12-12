@@ -7,6 +7,7 @@ module.exports = {
     show: true,
     name: "daily",
     description: "Get some daily monkeys.",
+    cooldown: 3,
     /**
      * @param {DiscordClient} client 
      * @param {Message} message 

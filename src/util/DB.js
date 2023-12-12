@@ -75,7 +75,7 @@ module.exports = class DB {
         if (comp > 0) {
             profile.bank += Math.round(profile.bank * 0.05) * dif;
             profile.interestTime = Date.now() + (1000 * 60 * 60 * 24);
-            profile.save();
+            await profile.save();
         }
         return profile;
     }

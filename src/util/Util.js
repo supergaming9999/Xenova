@@ -45,6 +45,14 @@ module.exports = class Util {
 	}
 
     /**
+     * Get a random number between a min and a max
+     * @param {Number} min inclusive
+     * @param {Number} max exclusive
+     * @returns {Number}
+     */
+    static random = (min, max) => Math.floor(Math.random() * (max - min) + min);
+
+    /**
      * @param {Message} message 
      * @returns {String}
      */

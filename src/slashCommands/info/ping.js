@@ -6,7 +6,7 @@ module.exports = {
 	name: 'ping',
 	description: "Check bot's ping.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 3000,
+	cooldown: 3,
     /**
      * @param {DiscordClient} client 
      * @param {CommandInteraction} interaction 

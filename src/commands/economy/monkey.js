@@ -9,7 +9,6 @@ module.exports = {
     aliases: ["balance", "cash", "currency", "mk"],
     description: "Check your monkey balance.",
     /**
-     * 
      * @param {DiscordClient} client 
      * @param {Message} message 
      * @param {String[]} args 

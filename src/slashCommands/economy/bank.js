@@ -37,7 +37,7 @@ module.exports = {
      * @param {Util.dbModel} profileData 
      */
 	run: async (client, interaction, config, profileData) => {
-        var usageError = client.simpleEmbed(`Usage: **/${this.name} ${this.usage}**`);
+        var usageError = client.simpleEmbed(`Usage: **/${module.exports.name} ${module.exports.usage}**`);
         var embed = new EmbedBuilder()
             .setColor('Aqua')
             .setAuthor({
@@ -111,7 +111,7 @@ module.exports = {
         if (profileData.bank == 0) {
             var tip = new EmbedBuilder()
                 .setColor('DarkGold')
-                .setDescription(`You can deposit monkey with **/${module.exports.name} deposit <Amount>**\n_Your due interest will be automatically added._`);
+                .setDescription(`You can deposit monkey with **/${module.exports.name} type:Deposit amount:<Number>**\n_Your due interest will be automatically added._`);
             msg.embeds.push(tip);
         }
 
