@@ -22,6 +22,11 @@ module.exports = {
 
     if (command) {
       if (!command.show && message.author.id !== config.owner) return;
+      var info = "**Description**: ";
+      info += command.description.replace(/(\{ClientUser\})/g, client.user.username);
+      if (command.aliases) info += `\n**Alias${command.aliases.length > 1 ? "es" : ""}**: ${command.aliases.join(", ")}`;
+      if (command.usage) info += `\n**Usage**: ${prefix}${commandName} ${command.usage}`;
+      if (command.cooldown) info += `\n**Cooldown**: ${command.cooldown} Seconds`;
       var commandHelp = new EmbedBuilder()
         .setColor("#2200ff")
         .setAuthor({
@@ -30,7 +35,7 @@ module.exports = {
           url: config.website
         })
         .setTitle(`${prefix}${command.name}`)
-        .setDescription(`**Description**: ${command.description.replace(/(\{ClientUser\})/g, client.user.username)}${command.aliases ? `\n**Alias${command.aliases.length > 1 ? "es" : ""}**: ${command.aliases.join(", ")}` : ""}${command.usage ? `\n**Usage**: ${prefix}${commandName} ${command.usage}` : ""}`)
+        .setDescription(info)
         .setTimestamp();
       return message.sreply({ embeds: [commandHelp] }).catch(console.error);
     }
