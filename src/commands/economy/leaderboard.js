@@ -8,7 +8,7 @@ module.exports = {
     name: "leaderboard",
     aliases: ["lb", "top"],
     description: "See the monkey leaderboard.",
-    leaderboard: 5,
+    cooldown: 5,
     /**
      * @param {DiscordClient} client 
      * @param {Message} message 

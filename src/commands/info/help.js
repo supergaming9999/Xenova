@@ -25,8 +25,8 @@ module.exports = {
       var info = "**Description**: ";
       info += command.description.replace(/(\{ClientUser\})/g, client.user.username);
       if (command.aliases) info += `\n**Alias${command.aliases.length > 1 ? "es" : ""}**: ${command.aliases.join(", ")}`;
-      if (command.usage) info += `\n**Usage**: ${prefix}${commandName} ${command.usage}`;
       if (command.cooldown) info += `\n**Cooldown**: ${command.cooldown} Seconds`;
+      if (command.usage) info += `\n**Usage**: ${prefix}${commandName} ${command.usage}`;
       var commandHelp = new EmbedBuilder()
         .setColor("#2200ff")
         .setAuthor({
