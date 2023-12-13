@@ -1,22 +1,20 @@
 const { EmbedBuilder, Message, ButtonStyle, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const { random } = require('./Util');
 const { ActiveQuests } = require('./Games');
-const { symbols, sentences, colorLabels, emojis } = require('./QuestData');
+const { symbols, sentences, colorLabels, emojis, words } = require('./QuestData');
 const DB = require('./DB');
 String.prototype.put = function(string, index, replace = false) {
     return this.slice(0, index) + string + this.slice(index + (replace ? 1 : 0));
 }
-var getEmbed = (msg) => {
-    return new EmbedBuilder()
-        .setColor("#543cff")
-        .setAuthor({
-            name: msg.author.username + "'s Quest",
-            iconURL: msg.author.displayAvatarURL()
-        });
-}
+var getEmbed = (msg) => new EmbedBuilder()
+    .setColor("#543cff")
+    .setAuthor({
+        name: msg.author.username + "'s Quest",
+        iconURL: msg.author.displayAvatarURL()
+    });
 
 module.exports = class Quests {
-    static list = ["FindNumbers", "Buttons", "Emojis"];
+    static list = ["FindNumbers", "Buttons", "Emojis", "WordType"];
 
     /**
      * @param {Message} message 
@@ -29,7 +27,7 @@ module.exports = class Quests {
             string += symbols[random(0, symbols.length)]
         }
         for (var i = 0; i < random(4, 8); i++) {
-            var number = random(0, 9);
+            var number = random(0, 10);
             numbers.push(number.toString());
             string = string.put(number, random(0, string.length), true);
         }
@@ -124,11 +122,8 @@ module.exports = class Quests {
         var embed = getEmbed(message);
         var row = new ActionRowBuilder();
         var reward = 0;
-        /**
-         * @type {Message}
-         */
         var quest;
-        for (var i = 1; i < random(7, 9); i++) {
+        for (var i = 0; i < random(6, 9); i++) {
             if (colors.length) {
                 var transfer = colors.splice(random(0, colors.length), 1)[0];
                 currentColors.push(transfer);
@@ -142,10 +137,14 @@ module.exports = class Quests {
             var chosen = currentColors[random(0, currentColors.length)];
             if (quest) {
                 embed.setTitle(sentences[random(0, sentences.length)].replace("{}", chosen.color));
-                quest.edit({ embeds: [embed], components: [row] });
+                await quest.edit({ embeds: [embed], components: [row] });
             } else {
                 embed.setTitle(`Press the ${chosen.color} button`);
                 quest = await message.reply({ embeds: [embed], components: [row] });
+                ActiveQuests.set(message.author.id, {
+                    type: "Buttons",
+                    message: quest
+                });
             }
             var button = await quest.awaitMessageComponent({
                 filter: c => c.user.id == message.author.id,
@@ -172,6 +171,7 @@ module.exports = class Quests {
                 .setDescription("You didn't press any buttons in time!");
         }
         row.components.forEach(c => c.setDisabled(true));
+        ActiveQuests.delete(message.author.id);
         quest.edit({ embeds: [embed], components: [row] });
     }
 
@@ -184,7 +184,7 @@ module.exports = class Quests {
         var reward = 0;
         var rows = [];
         var quest;
-        for (var i = 1; i < random(7, 9); i++) {
+        for (var i = 0; i < random(6, 9); i++) {
             if (rows.length < 5) {
                 var row = new ActionRowBuilder();
                 for (var c = 0; c < 5; c++) {
@@ -202,9 +202,13 @@ module.exports = class Quests {
             var chosen = choices[random(0, choices.length)];
             embed.setTitle(`Find this emoji: ${chosen}`);
             if (quest) {
-                quest.edit({ embeds: [embed], components: rows });
+                await quest.edit({ embeds: [embed], components: rows });
             } else {
                 quest = await message.reply({ embeds: [embed], components: rows });
+                ActiveQuests.set(message.author.id, {
+                    type: "Emojis",
+                    message: quest
+                });
             }
             var button = await quest.awaitMessageComponent({
                 filter: c => c.user.id == message.author.id,
@@ -224,13 +228,71 @@ module.exports = class Quests {
         if (presses) {
             embed.setColor('Green')
                 .setDescription(`You found ${presses} emoji${presses > 1 ? 's' : ''}!`)
-                .setFooter({ text: `You won ${reward} monkey!` });
+                .setFooter({ text: `You won ${reward} Monkey!` });
             DB.addMonkey(message.author, reward);
         } else {
             embed.setColor('Red')
                 .setDescription("You didn't find any correct emojis in time!");
         }
         rows.forEach(r => r.components.forEach(c => c.setDisabled(true)));
+        ActiveQuests.delete(message.author.id);
         quest.edit({ embeds: [embed], components: rows });
+    }
+    
+    /**
+     * @param {Message} message 
+     */
+    static async WordType(message) {
+        var embed = getEmbed(message)
+            .setTitle("Type what the button says below but in lower case")
+            .setFooter({ text: " v v v " });
+        var compare = (str1, str2) => str1.split('').filter((v, i) => v == str2[i]);
+        var reward = 0;
+        var quest;
+        for (var i = 0; i < random(3, 5); i++) {
+            var word = words[random(0, words.length)];
+            var row = new ActionRowBuilder().addComponents(
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(true)
+                    .setCustomId('qw')
+                    .setLabel(word.toUpperCase())
+            );
+            if (quest) {
+                embed.setColor('Random')
+                    .setDescription("Keep typing! Keep typing!")
+                    .setFooter({ text: `You've earned ${reward} Monkey so far` });
+                await quest.edit({ embeds: [embed], components: [row] });
+            } else {
+                quest = await message.reply({ embeds: [embed], components: [row] });
+                ActiveQuests.set(message.author.id, {
+                    type: "WordType",
+                    message: quest
+                });
+            }
+
+            var attempt = await message.channel.awaitMessages({
+                filter: m => m.author.id == message.author.id && compare(word, m.content).length,
+                time: (word.length * 1_000 + 4_000) / 2, max: 1
+            }).catch(() => {});
+
+            if (attempt.size) {
+                reward += compare(word, attempt.first().content).length * 10;
+            }
+        }
+        embed.setTitle("Type the word");
+        var correct = reward / 10;
+        if (correct) {
+            embed.setColor('Green')
+                .setDescription(`You got ${correct} letters correct!`)
+                .setFooter({ text: `You won a total of ${reward} Monkey!` });
+            DB.addMonkey(message.author, reward);
+        } else {
+            embed.setColor('Red')
+                .setDescription("You didn't type any correct letters?")
+                .setFooter(null);
+        }
+        ActiveQuests.delete(message.author.id);
+        quest.edit({ embeds: [embed], components: [] });
     }
 }

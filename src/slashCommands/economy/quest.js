@@ -8,7 +8,7 @@ module.exports = {
 	name: 'quest',
 	description: "Complete a quest to earn monkey.",
 	type: ApplicationCommandType.ChatInput,
-	cooldown: 30,
+	cooldown: 10,
     /**
      * @param {DiscordClient} client 
      * @param {CommandInteraction} interaction 

@@ -9,7 +9,7 @@ module.exports = {
     name: "quest",
     aliases: ["q"],
     description: "Complete a quest to earn monkey.",
-    cooldown: 30,
+    cooldown: 10,
     /**
      * @param {DiscordClient} client 
      * @param {Message} message 
