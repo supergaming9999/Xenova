@@ -245,7 +245,7 @@ module.exports = class Quests {
     static async WordType(message) {
         var embed = getEmbed(message)
             .setTitle("Type what the button says below but in lower case")
-            .setFooter({ text: " v v v " });
+            .setFooter({ text: "Send a message for each word" });
         var compare = (str1, str2) => str1.split('').filter((v, i) => v == str2[i]);
         var reward = 0;
         var quest;

@@ -47,12 +47,12 @@ module.exports = class DB {
 
     /**
      * Get a mapping of all database profiles
-     * @returns {Map<Snowflake, Document<unknown, {}, { userID: string; monkey: number; dailyStreak: number; dailyTime?: Date | undefined; }>>}
+     * @returns {Map<Snowflake, Document<unknown, {}, { monkey: number; bank: number; username: string; userID: string; dailyStreak: number; interestTime?: Date | undefined; dailyTime?: Date | undefined; }>>}
      */
     static async getAll() {
         var userMap = new Map();
         try {
-            var users = await profileModel.find({}, null, { sort: { monkey: -1 }, limit: 10 });
+            var users = await profileModel.find({});
             users.forEach(user => {
                 userMap.set(user.userID, user);
             });
