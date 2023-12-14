@@ -30,7 +30,7 @@ module.exports = {
         list = list.slice(0, 10);
 
         var board = list.map((v, i) => {
-            return `**${i+1}**. \`@\`**${v.username}** - **${v.monkey ? Util.formatNumber(v.monkey) : 0} Monkey**${v.bank ? ` + **${Util.formatNumber(v.bank)}**` : ''}`;
+            return `**${i+1}**. \`@\`**${v.username}** » **${v.monkey ? Util.formatNumber(v.monkey) : 0}** Wallet${v.bank ? ` + **${Util.formatNumber(v.bank)}** Bank` : ''}`;
         });
 
         embed.setDescription(board.join("\n"));
