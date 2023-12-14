@@ -27,6 +27,7 @@ module.exports = {
         var users = await DB.getAll();
         var list = Array.from(users, ([_, user]) => user);
         list.sort((a, b) => (b.monkey + b.bank) - (a.monkey + a.bank));
+        list = list.slice(0, 10);
 
         var board = list.map((v, i) => {
             return `**${i+1}**. \`@\`**${v.username}** - **${v.monkey ? Util.formatNumber(v.monkey) : 0} Monkey**${v.bank ? ` + **${Util.formatNumber(v.bank)}**` : ''}`;
