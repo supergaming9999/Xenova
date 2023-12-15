@@ -17,6 +17,12 @@ module.exports = class Util {
         ...require('../../config.json')
     }
 
+    static categories = {
+        economy: ":monkey: Economy",
+        gambling: ":game_die: Gambling",
+        info: ":grey_question: Info"
+    }
+
     /**
      * Formats a large number with commas
      * @param {Number} number Number to format
