@@ -130,7 +130,7 @@ module.exports = {
 
         let ranID = getRandomSlot(tttGame);
         if (ranID) {
-            if (calcWinner(tttGame, playerEmoji).match(/turn/)) {
+            if (calcWinner(tttGame, playerEmoji, botEmoji).match(/turn/)) {
                 var ranSplitID = ranID.split(',');
                 tttGame[ranSplitID[0]][ranSplitID[1]] = botEmoji;
             }
@@ -168,7 +168,7 @@ module.exports = {
                 iconURL: interaction.user.displayAvatarURL()
             });
         
-        var winner = calcWinner(tttGame, playerEmoji);
+        var winner = calcWinner(tttGame, playerEmoji, botEmoji);
 
         if (winner.match(/(win|lose|tied)/i)) {
             if (winner.match(/win/i)) {
@@ -198,7 +198,7 @@ module.exports = {
     }
 }
 
-function calcWinner(tttGame, playerEmoji) {
+function calcWinner(tttGame, playerEmoji, botEmoji) {
     var winner = "r turn";
     var winConditions = [
         [[0, 0], [0, 1], [0, 2]],
@@ -211,17 +211,28 @@ function calcWinner(tttGame, playerEmoji) {
         [[0, 0], [1, 1], [2, 2]]
     ];
 
-    var win = false;
-    for (var combination of winConditions) {
-        if (
-            tttGame[combination[0][0]][combination[0][1]] == playerEmoji &&
-            tttGame[combination[1][0]][combination[1][1]] == playerEmoji &&
-            tttGame[combination[2][0]][combination[2][1]] == playerEmoji
-        ) win = true;
+    var win = null;
+    for (var condition of winConditions) {
+        var user = 0;
+        var bot = 0;
+        for (var combination of condition) {
+            var [cx, cy] = combination;
+            switch (tttGame[cx][cy]) {
+                case playerEmoji: user++; break;
+                case botEmoji: bot++; break;
+            }
+        }
+        if (user == 3) {
+            win = playerEmoji;
+            break;
+        } else if (bot == 3) {
+            win = botEmoji;
+            break;
+        }
     }
 
     if (win) {
-        winner = playerEmoji == x ? " **Win**" : " **Lose**";
+        winner = playerEmoji == win ? " **Win**" : " **Lose**";
     } else if (!getRandomSlot(tttGame)) {
         winner = " **Tied**";
     }
